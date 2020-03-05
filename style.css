@@ -1,0 +1,27 @@
+
+table {
+    border: 1px;
+}
+
+tr {
+    border: 1px;
+
+}
+
+tr:nth-child(odd) {
+    background-color: lightgray;
+}
+
+td {
+    border: 1px;
+    height: 100px;
+    width: 100px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+input {
+    height: 25px;
+    padding-left: 10px;
+    padding-right: 10px;
+}

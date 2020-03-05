@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular.min.js" type="application/javascript"></script>
+    <script src="script.js" type="application/javascript"></script>
+    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <title>Eval-Matrix</title>
+</head>
+<body ng-app="evalMatrix">
+
+<div ng-controller="EvalMatrixController as evalMatrix">
+
+    <table border="1">
+        <tr>
+            <td colspan="2" style="height: 50px">
+                Evaluation Matrix
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <table border="1">
+                    <tr>
+                        <td>
+                            <label>Criteria(s)</label>
+                        </td>
+                    </tr>
+                    <tr ng-repeat="criteria in evalMatrix.data.criteria">
+                        <td>
+                            <input id="criteria-{{$index}}" ng-model="criteria.label" />
+<!--                            <select id="criteria-type-{{$index}}" ng-model="criteria.type">-->
+<!--                            </select>-->
+                            <select
+                                    id="criteria-weight-{{$index}}"
+                                    ng-options="item as item.id for item in evalMatrix.weightTypes track by item.id"
+                                    ng-model="criteria.weightTypes"
+                            ></select>
+                                <select
+                                        id="criteria-value-{{$index}}"
+                                        ng-options="item as item.label for item in evalMatrix.weights track by item.value"
+                                        ng-model="criteria.weightValue"
+                                >
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="button" id="addCriteria" value="Add Criteria" ng-click="evalMatrix.addCriteria();" />
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td>
+                <table border="1">
+                    <tr>
+                        <td ng-repeat="evalRow in evalMatrix.data.evalRow">
+                            <input ng-model="evalRow.label" />
+                        </td>
+                        <td><input type="button" id="addOption" value="Add Option" ng-click="evalMatrix.addOption();" /></td>
+                    </tr>
+
+                    <tr ng-repeat="criteria in evalMatrix.data.criteria">
+                        <td ng-repeat="evalRow in evalMatrix.data.evalRow">
+                            <input ng-model="evalRow.criteria[$parent.$index]"/>
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td ng-repeat="total in evalMatrix.calcTotal">
+                            {{total.value}}
+                        </td>
+                        <td>
+                            <input type="button" id="recalc" value="ReCalc" ng-click="evalMatrix.recalc();">
+                        </td>
+                    </tr>
+
+                </table>
+            </td>
+        </tr>
+    </table>
+
+    <a id="downloadAnchorElem" style="display: none"></a>
+    <fieldset>
+        <h2>Json File</h2>
+        <input type='file' id='fileinput'/>
+        <input type='button' id='btnLoad' value='Load' ng-click='evalMatrix.loadFile();'/>
+        <input type='button' id='btnArchive' value='Archive' ng-click='evalMatrix.archive();'/>
+    </fieldset>
+</div>
+
+
+</body>
+</html>
